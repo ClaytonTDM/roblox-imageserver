@@ -1,0 +1,16 @@
+{
+  "name": "imagereceiver",
+  "version": "1.0.0",
+  "description": "decodes images for rendering in roblox",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ClaytonTDM",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "jimp": "^0.22.12",
+    "screenshot-desktop": "^1.15.0"
+  }
+}
