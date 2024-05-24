@@ -48,7 +48,7 @@ app.get("/ss", async (req, res) => {
 
     // If the image is larger than 960x540, scale it down
     if (image.bitmap.width > 960 || image.bitmap.height > 540) {
-        image.scaleToFit(360, 203);
+        image.scaleToFit(960, 540);
     }
 
     const width = image.bitmap.width;
