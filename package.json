@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "jimp": "^0.22.12",
+    "puppeteer": "^22.10.0",
     "screenshot-desktop": "^1.15.0"
   }
 }
