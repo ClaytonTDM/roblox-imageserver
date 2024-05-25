@@ -1,2 +1,4 @@
 *.luau
+# i share my files in .rar format
+*.rar
 /node_modules
