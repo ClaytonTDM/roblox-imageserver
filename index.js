@@ -5,7 +5,7 @@ const fs = require("fs");
 const app = express();
 const port = 2021;
 
-const usePuppeeter = false;
+const usePuppeeter = true;
 if (usePuppeeter) {
     const puppeteer = require("puppeteer-extra");
     const StealthPlugin = require("puppeteer-extra-plugin-stealth");
