@@ -12,6 +12,8 @@
     "express": "^4.19.2",
     "jimp": "^0.22.12",
     "puppeteer": "^22.10.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "screenshot-desktop": "^1.15.0"
   }
 }

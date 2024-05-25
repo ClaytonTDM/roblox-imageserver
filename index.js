@@ -2,41 +2,48 @@ const express = require("express");
 const Jimp = require("jimp");
 const screenshot = require("screenshot-desktop");
 const fs = require("fs");
-const puppeteer = require("puppeteer");
 const app = express();
 const port = 2021;
 
-let browser, page; // Declare browser and page variables
+const usePuppeeter = false;
+if (usePuppeeter) {
+    const puppeteer = require("puppeteer-extra");
+    const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+    const stealthPlugin = StealthPlugin();
 
-(async () => {
-    browser = await puppeteer.launch({ headless: true });
-    page = await browser.newPage();
-    await page.setViewport({ width: 960, height: 540 }); // Set the viewport
-    await page.goto("https://google.com");
-    // await page.evaluate(() => document.body.style.zoom = 0.5  );
-    /*
-    // Inject JavaScript to create a small circle at the mouse's current position
-    await page.evaluate(() => {
-        addEventListener("click", createBox);
+    puppeteer.use(stealthPlugin);
 
-        function createBox(event) {
-            var box = document.createElement("div");
-            box.className = "box";
-            box.style.left = event.pageX + "px";
-            box.style.top = event.pageY + "px";
-            box.style.padding = '10px';
-            box.style.marginLeft = '-10px';
-            box.style.marginTop = '-10px';
-            box.style.backgroundColor = 'red';
-            box.style.borderRadius = '50%';
-            box.style.position = 'absolute';
-            box.style.zIndex = '999999';
-            document.body.appendChild(box);
-        }
-        
-    });
-    */
-})();
+    let browser, page; // Declare browser and page variables
+
+    (async () => {
+        browser = await puppeteer.launch({ headless: true });
+        page = await browser.newPage();
+        // await page.setBypassCSP(true);
+        await page.setViewport({ width: 960, height: 540 }); // Set the viewport
+        await page.goto("https://google.com");
+        // await page.evaluate(() => document.body.style.zoom = 0.5  );
+        /*
+        await page.evaluate(() => {
+            addEventListener("click", createBox);
+
+            function createBox(event) {
+                var box = document.createElement("div");
+                box.className = "box";
+                box.style.left = event.pageX + "px";
+                box.style.top = event.pageY + "px";
+                box.style.padding = "10px";
+                box.style.marginLeft = "-10px";
+                box.style.marginTop = "-10px";
+                box.style.backgroundColor = "red";
+                box.style.borderRadius = "50%";
+                box.style.position = "absolute";
+                box.style.zIndex = "999999";
+                document.body.appendChild(box);
+            }
+        });
+        */
+    })();
+}
 
 app.get("/", async (req, res) => {
     const imageUrl = req.query.url;
@@ -52,17 +59,22 @@ app.get("/", async (req, res) => {
     const pixelData = [];
 
     image.scan(0, 0, width, height, function (x, y, idx) {
-        const red = this.bitmap.data[idx + 0];
-        const green = this.bitmap.data[idx + 1];
-        const blue = this.bitmap.data[idx + 2];
+        const red = this.bitmap.data[idx + 0] / 255;
+        const green = this.bitmap.data[idx + 1] / 255;
+        const blue = this.bitmap.data[idx + 2] / 255;
         const alpha = this.bitmap.data[idx + 3]; // Get the alpha value
-        const transparency = 1 - alpha / 255; // Convert alpha to transparency
-
+        const transparency = alpha / 255; // Convert alpha to transparency
+        /*
         pixelData.push({
             c: `${red},${green},${blue}`,
             l: `${x},${y}`,
             t: transparency.toFixed(2), // Include transparency in the pixel data
         });
+        */
+        pixelData.push(red);
+        pixelData.push(green);
+        pixelData.push(blue);
+        pixelData.push(transparency);
     });
 
     res.send([
@@ -89,17 +101,22 @@ app.get("/ss", async (req, res) => {
     const pixelData = [];
 
     image.scan(0, 0, width, height, function (x, y, idx) {
-        const red = this.bitmap.data[idx + 0];
-        const green = this.bitmap.data[idx + 1];
-        const blue = this.bitmap.data[idx + 2];
+        const red = this.bitmap.data[idx + 0] / 255;
+        const green = this.bitmap.data[idx + 1] / 255;
+        const blue = this.bitmap.data[idx + 2] / 255;
         const alpha = this.bitmap.data[idx + 3]; // Get the alpha value
-        const transparency = 1 - alpha / 255; // Convert alpha to transparency
-
+        const transparency = alpha / 255; // Convert alpha to transparency
+        /*
         pixelData.push({
             c: `${red},${green},${blue}`,
             l: `${x},${y}`,
             t: transparency.toFixed(2), // Include transparency in the pixel data
         });
+        */
+        pixelData.push(red);
+        pixelData.push(green);
+        pixelData.push(blue);
+        pixelData.push(transparency);
     });
 
     // Delete the temporary screenshot file
@@ -116,7 +133,7 @@ app.get("/ss", async (req, res) => {
 
 app.get("/browser", async (req, res) => {
     // Use setTimeout instead of waitForTimeout
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const screenshotBuffer = await page.screenshot();
     const image = await Jimp.read(screenshotBuffer);
@@ -131,17 +148,21 @@ app.get("/browser", async (req, res) => {
     const pixelData = [];
 
     image.scan(0, 0, width, height, function (x, y, idx) {
-        const red = this.bitmap.data[idx + 0];
-        const green = this.bitmap.data[idx + 1];
-        const blue = this.bitmap.data[idx + 2];
+        const red = this.bitmap.data[idx + 0] / 255;
+        const green = this.bitmap.data[idx + 1] / 255;
+        const blue = this.bitmap.data[idx + 2] / 255;
         const alpha = this.bitmap.data[idx + 3]; // Get the alpha value
-        const transparency = 1 - alpha / 255; // Convert alpha to transparency
+        const transparency = alpha / 255; // Convert alpha to transparency
 
-        pixelData.push({
-            c: `${red},${green},${blue}`,
-            l: `${x},${y}`,
-            t: transparency.toFixed(2), // Include transparency in the pixel data
-        });
+        // pixelData.push({
+        //     c: `${red},${green},${blue}`,
+        //     l: `${x},${y}`,
+        //     t: transparency.toFixed(2), // Include transparency in the pixel data
+        // });
+        pixelData.push(red);
+        pixelData.push(green);
+        pixelData.push(blue);
+        pixelData.push(transparency);
     });
 
     res.send([
@@ -208,6 +229,22 @@ app.get("/preview", async (req, res) => {
         "Content-Length": screenshotBuffer.length,
     });
     res.end(screenshotBuffer);
+});
+
+app.get("/sendUrl", async (req, res) => {
+    const url = req.query.url;
+
+    if (url === undefined || url === "") {
+        res.status(400).send("Invalid URL.");
+        return;
+    }
+
+    try {
+        await page.goto(url);
+        res.send("Changed URL to " + url);
+    } catch (error) {
+        res.status(500).send("An error occurred: " + error.message);
+    }
 });
 
 app.listen(port, () => {
