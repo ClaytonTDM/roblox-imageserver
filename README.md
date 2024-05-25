@@ -1,4 +1,4 @@
-# image receiver
+# image viewer and browser thing for roblox
 
 ok heres how to use the thing
 
@@ -8,4 +8,4 @@ ok heres how to use the thing
 4. cmd and `cd` into the path where you extracted the zip
 5. run `npm i` in cmd
 6. run `node index.js` in cmd
-7. now the roblox thing is ready to use
+7. now the roblox thing is ready to use (if you dont have the roblox thing you can download it [here]()) <!-- ill add the link later -->
