@@ -2,6 +2,9 @@
 
 ok heres how to use the thing
 
+> [!IMPORTANT]  
+> you have to use RUN (not playtest) to use this. this was done both to combat abuse and because im lazy. to click the buttons make sure that you dont have select/move or anything selected in the HOME tab of studio
+
 1. install [nodejs](https://nodejs.org/)
 2. [download the repo](https://github.com/ClaytonTDM/roblox-imageserver/archive/refs/heads/main.zip)
 3. extract the zip somewhere
