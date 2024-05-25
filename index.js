@@ -5,24 +5,22 @@ const fs = require("fs");
 const app = express();
 const port = 2021;
 
-const usePuppeeter = true;
-if (usePuppeeter) {
-    const puppeteer = require("puppeteer-extra");
-    const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-    const stealthPlugin = StealthPlugin();
+const puppeteer = require("puppeteer-extra");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const stealthPlugin = StealthPlugin();
 
-    puppeteer.use(stealthPlugin);
+puppeteer.use(stealthPlugin);
 
-    let browser, page; // Declare browser and page variables
+let browser, page; // Declare browser and page variables
 
-    (async () => {
-        browser = await puppeteer.launch({ headless: true });
-        page = await browser.newPage();
-        // await page.setBypassCSP(true);
-        await page.setViewport({ width: 960, height: 540 }); // Set the viewport
-        await page.goto("https://google.com");
-        // await page.evaluate(() => document.body.style.zoom = 0.5  );
-        /*
+(async () => {
+    browser = await puppeteer.launch({ headless: true });
+    page = await browser.newPage();
+    // await page.setBypassCSP(true);
+    await page.setViewport({ width: 960, height: 540 }); // Set the viewport
+    await page.goto("https://google.com");
+    // await page.evaluate(() => document.body.style.zoom = 0.5  );
+    /*
         await page.evaluate(() => {
             addEventListener("click", createBox);
 
@@ -42,8 +40,7 @@ if (usePuppeeter) {
             }
         });
         */
-    })();
-}
+})();
 
 app.get("/", async (req, res) => {
     const imageUrl = req.query.url;
