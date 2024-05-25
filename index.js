@@ -12,7 +12,8 @@ let browser, page; // Declare browser and page variables
     browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
     await page.setViewport({ width: 960, height: 540 }); // Set the viewport
-    await page.goto("data:text/html,");
+    await page.goto("https://google.com");
+    // await page.evaluate(() => document.body.style.zoom = 0.5  );
     /*
     // Inject JavaScript to create a small circle at the mouse's current position
     await page.evaluate(() => {
@@ -182,7 +183,7 @@ app.get("/sendText", async (req, res) => {
     ) {
         await page.keyboard.press("Arrow" + text);
     } else if (text === "Space") {
-        await page.keyboard.press("Space");
+        await page.keyboard.press(" ");
     } else if (text === "Delete") {
         await page.keyboard.press("Backspace");
     } else if (text === "Forwards") {
@@ -194,7 +195,7 @@ app.get("/sendText", async (req, res) => {
     } else if (text === "Enter") {
         await page.keyboard.press("Enter");
     } else {
-        await page.keyboard.type(text);
+        await page.keyboard.type(text.toLowerCase());
     }
 
     res.send("Typed: " + text);
