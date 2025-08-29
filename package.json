@@ -9,7 +9,7 @@
   "author": "ClaytonTDM",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "jimp": "^0.22.12",
     "puppeteer": "^22.10.0",
     "puppeteer-extra": "^3.3.6",
